@@ -1,0 +1,14 @@
+{% load i18n %}
+<form id="login_form" onsubmit="return false" method="post" v-show="isActive('loginForm')">
+	<fieldset class="flex tree">
+		<label><input name="username" placeholder="{% trans 'Username' %}"></label>
+		<label><input name="password" placeholder="{% trans 'Password' %}"></label>
+		<input type="submit" @click="postLoginForm()" value="{% trans 'Login' %}" />
+	</fieldset>
+</form>
+<div id="msgs" style="text-align:center" v-html="msgForm" v-show="isActive('msgForm')"></div>
+<div id="logout" style="display:none" v-show="isActive('logout')">
+	<div>{% trans 'Do you want to logout?' %}</div>
+	<button class="success" @click="logoutUser()">{% trans 'Yes log me out' %}</a></button>
+	<button class="error" @click="cancelLogout()">{% trans 'Cancel' %}</button>
+</div>
