@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n vvlogin_tags %}
 loadLoginForm: function() {
 	app.activate(["login", "loginForm", "loginFormMsg"]);
 	document.title = "{% trans 'Login' %}";
@@ -9,7 +9,6 @@ loadLogout: function() {
 	document.title = "{% trans 'Logout' %}";
 },
 cancelLogout: function() {
-	console.log("CANCEL LOGOUT");
 	app.deactivate(["login", "logout"]);
 },
 logoutUser: function() {
@@ -23,9 +22,16 @@ logoutUser: function() {
 			app.msgForm = "{% trans 'Successfuly logged out' %}";
 			app.activate(["msgForm"]);
 			setTimeout(function(){ app.deactivate(["login", "msgForm", "logout"]) }, 1500);
+			app.logoutRedirect();
 		}
 	}
 	this.loadData("{% url 'logout' %}", action, error);
+},
+loginRedirect: function() {
+	self.location.href = "{% login_redirect_url %}";
+},
+logoutRedirect: function() {
+	self.location.href = "{% logout_redirect_url %}";
 },
 postLoginForm: function() {
 	var url = "{% url 'login-form' %}";
@@ -55,6 +61,7 @@ postLoginForm: function() {
 			app.activate(["msgForm"]);
 			app.deactivate(["loginForm"]);
 			setTimeout(function(){ app.deactivate(["login", "msgForm"]) }, 1500);
+			app.loginRedirect();
 		} else {
 			app.msgForm = "{% trans 'Can not login' %}";
 		}

@@ -1,3 +1,6 @@
 {% load i18n %}
-<a href="/login/" v-show="showLogin">{% trans 'Login' %}</a>
-<a href="/logout/" v-show="showLogout">{% trans 'Logout' %}</a>
+{% if user.is_authenticated %}
+<a href="/logout/" v-show="showLogout" v-if="isInactive('logout')">{% trans 'Logout' %}</a>
+{% else %}
+<a href="/login/" v-show="showLogin" v-if="isInactive('login')">{% trans 'Login' %}</a>
+{% endif %}
